@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Menedżer Projektów</title>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div id="container">
+        <div id="container-header">
+            <button id="login-button">Zaloguj się</button>
+            <button id="toggle-theme-button">Ciemny</button>
+            <h2>Projekt</h2>
+            <button id="project-modal-new-button">Nowy projekt</button>
+            <button id="scenario-modal-new-button">Nowy scenariusz</button>
+            <button id="task-modal-new-button">Nowe zadanie</button>
+            <button id="task-container-button-kanban">Przełącz Kanban</button>
+        </div>
+
+        <div id="container-login" class="modal">
+            <div class="modal-content">
+                <form id="login-form">
+                    <input type="text" id="username" placeholder="Nazwa użytkownika" required>
+                    <input type="password" id="password" placeholder="Hasło" required>
+                    <button type="submit">Zaloguj się</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="project-container-list"></div>
+        <div id="scenario-container-list"></div>
+        <div id="task-container-list"></div>
+
+
+        <div id="project-modal-new" class="modal">
+            <div class="modal-content">
+                <form id="project-form">
+                    <input type="text" id="project-name" placeholder="Nazwa projektu" required>
+                    <input type="text" id="project-description" placeholder="Opis projektu" required>
+                    <button type="submit">Dodaj projekt</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="project-modal-description" class="modal">
+            <div class="modal-content">
+                <span id="project-description-content"></span>
+            </div>
+        </div>
+
+        <div id="project-modal-update" class="modal">
+            <div class="modal-content">
+                <form id="project-form-update">
+                    <input type="text" id="project-update-name" placeholder="Nowa nazwa projektu" required>
+                    <input type="text" id="project-update-description" placeholder="Nowy opis projektu" required>
+                    <button type="submit">Aktualizuj projekt</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div id="scenario-modal-new" class="modal">
+            <div class="modal-content">
+                <form id="scenario-form">
+                    <input type="text" id="scenario-name" name="name" placeholder="Nazwa scenariusza" required>
+                    <input type="text" id="scenario-description" name="name" placeholder="Opis scenariusza" required>
+                    <select id="scenario-priority" name="priority" required>
+                        <option value="low">Niski</option>
+                        <option value="medium">Średni</option>
+                        <option value="high">Wysoki</option>
+                    </select>
+                    <button type="submit">Dodaj scenariusz</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="scenario-modal-update" class="modal">
+            <div class="modal-content">
+                <form id="scenario-details-form">
+                    <input type="text" id="scenario-details-name" placeholder="Nazwa scenariusza" required>
+                    <input type="text" id="scenario-details-description" name="name" placeholder="Opis scenariusza" required>
+                    <select id="scenario-details-priority" name="priority" required>
+                        <option value="low">Niski</option>
+                        <option value="medium">Średni</option>
+                        <option value="high">Wysoki</option>
+                    </select>
+                    <select id="scenario-details-status" name="status" required>
+                        <option value="todo">Do zrobienia</option>
+                        <option value="in progress">W trakcie</option>
+                        <option value="done">Zrobione</option>
+                    </select>
+                    <button type="submit">Zapisz</button>
+                    <button type="button" id="scenario-details-delete">Usuń</button>
+                </form>
+            </div>
+        </div>
+
+
+
+        <div id="task-modal-new" class="modal">
+            <div class="modal-content">
+                <form id="task-form">
+                    <input type="text" id="task-name" name="name" placeholder="Nazwa zadania" required>
+                    <textarea id="task-description" name="description" placeholder="Opis zadania" rows="5" required></textarea>
+                    <select id="task-priority" name="priority" required>
+                        <option value="low">Niski</option>
+                        <option value="medium">Średni</option>
+                        <option value="high">Wysoki</option>
+                    </select>
+                    <input type="number" id="task-estimated-time" placeholder="Szacowane godziny" required>
+                    <button type="submit">Dodaj zadanie</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="task-container-details">
+            <form id="task-details-form">
+                <div id="task-container-details-top">
+                    <div id="task-container-details-top-left">
+                        <div class="task-details-form-element">
+                            <label for="task-details-name">Nazwa zadania</label>
+                            <input type="text" id="task-details-name" placeholder="Nazwa zadania" required>
+                        </div>
+                        <div class="task-details-form-element">
+                            <label for="task-details-description">Opis zadania</label>
+                            <textarea id="task-details-description" rows="5" placeholder="Opis zadania" required></textarea>
+                        </div>
+                    </div>
+                    <div id="task-container-details-top-right">
+                        <div class="task-details-form-element">
+                            <label for="task-details-responsible">Osoba odpowiedzialna</label>
+                            <select id="task-details-responsible" name="Responsible person" required>
+                            </select>
+                        </div>
+                        <div class="task-details-form-element">
+                            <label for="task-details-priority">Priorytet</label>
+                            <select id="task-details-priority" name="priority" required>
+                                <option value="low">Niski</option>
+                                <option value="medium">Średni</option>
+                                <option value="high">Wysoki</option>
+                            </select>
+                        </div>
+                        <div class="task-details-form-element">
+                            <label for="task-details-status">Status</label>
+                            <select id="task-details-status" name="status" required>
+                                <option value="todo">Do zrobienia</option>
+                                <option value="in progress">W trakcie</option>
+                                <option value="done">Zrobione</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="task-details-form-element">
+                    <label for="task-details-estimated-time">Szacowane godziny</label>
+                    <input type="number" id="task-details-estimated-time" placeholder="Szacowane godziny">
+                </div>
+                <div class="task-details-form-element">
+                    <label for="task-details-start-date">Data rozpoczęcia</label>
+                    <input type="datetime" id="task-details-start-date" placeholder="Data rozpoczęcia" readonly>
+                </div>
+                <div class="task-details-form-element">
+                    <label for="task-details-end-date">Data zakończenia</label>
+                    <input type="datetime" id="task-details-end-date" placeholder="Data zakończenia" readonly>
+                </div>
+
+                <div class="task-details-form-element">
+                    <button type="submit">Zapisz</button>
+                    <button type="button" id="task-details-delete">Usuń</button>
+                </div>
+                <div class="task-details-form-element">
+                    <label for="task-details-creation-date">Data utworzenia</label>
+                    <input type="date" id="task-details-creation-date" placeholder="Data utworzenia" readonly>
+                </div>
+            </form>
+        </div>
+
+        <div id="task-container-kanban">
+            <div id="task-container-kanban-statuses">
+                <div id="task-container-kanban-todo" class="task-column">
+                    <h2>Do zrobienia</h2>
+                </div>
+                <div id="task-container-kanban-inprogress" class="task-column">
+                    <h2>W trakcie</h2>
+                </div>
+                <div id="task-container-kanban-done" class="task-column">
+                    <h2>Zrobione</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification-bubble" class="notification-bubble">
+        Powiadomienia <span id="unread-notification-counter">0</span>
+    </div>
+
+    <div id="notification-panel" class="hidden">
+        <h3>Powiadomienia</h3>
+        <button id="notification-panel-read-all-button" type="button">Przeczytaj wszystkie</button>
+        <ul id="notifications-container"></ul>
+    </div>
+
+    <div id="navigation-general">
+        <button id="projectlist-navigation-button">Projekty</button>
+        <button id="scenariolist-navigation-button">Scenariusze</button>
+        <button id="tasklist-navigation-button">Zadania</button>
+    </div>
+
+    <div id="navigation-statuses">
+        <button id="navigation-statuses-button-all">Wszystkie</button>
+        <button id="navigation-statuses-button-todo">Do zrobienia</button>
+        <button id="navigation-statuses-button-inprogress">W trakcie</button>
+        <button id="navigation-statuses-button-done">Zrobione</button>
+    </div>
+
+    <script type="module" src="./src/main.ts"></script>
+</body>
+
+</html>
